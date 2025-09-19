@@ -147,7 +147,7 @@ def start(message):
 
     bot.send_message(chat_id, "Assalomu alaykum! Tanlang:", reply_markup=main_menu())
 
-# --- Inline tekshirish ---
+# --- Inline tugma tekshirish ---
 @bot.callback_query_handler(func=lambda call: call.data=="check_subs")
 def recheck_subscription(call):
     if check_channel_membership(call.from_user.id):
@@ -169,7 +169,7 @@ def spin(message):
         bot.send_message(chat_id, "Spinlar tugagan!")
         return
     user["spins"] -= 1
-    win = 1  # har doim 1 spin
+    win = 1  # Har doim 1 so‘m (yoki spin qiymati)
     user["balance"] += win
     update_user(chat_id, user)
     bot.send_message(chat_id, f"🎉 Spin ishlatildi! Balans: {user['balance']} so‘m")
@@ -268,5 +268,11 @@ def webhook():
         bot.process_new_updates([update])
     return "OK", 200
 
+# --- Brauzer uchun test route ---
+@app.route("/")
+def index():
+    return "✅ Bot live va ishlayapti!", 200
+
 if __name__=="__main__":
-    app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 10000)))
+    port = int(os.environ.get("PORT", 10000))
+    app.run(host="0.0.0.0", port=port)
